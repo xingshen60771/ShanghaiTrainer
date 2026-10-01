@@ -81,8 +81,13 @@ namespace ShanghaiTrainer
                 int vkCode = Marshal.ReadInt32(lParam);
                 bool shiftPressed = (GetKeyState((int)Keys.ShiftKey) & 0x8000) != 0;
 
+<<<<<<< HEAD
                 // 检查功能键F1-F7 + Shift组合
-                if (shiftPressed && vkCode >= (int)Keys.F1 && vkCode <= (int)Keys.F7)
+                if (shiftPressed && vkCode >= (int)Keys.F1 && vkCode <= (int)Keys.F8)
+=======
+                // 检查功能键F1-F6 + Shift组合
+                if (shiftPressed && vkCode >= (int)Keys.F1 && vkCode <= (int)Keys.F6)
+>>>>>>> parent of 8379df8 (F7按键失效修复)
                 {
                     int functionNumber = vkCode - (int)Keys.F1 + 1;
                     HotkeyPressed?.Invoke(functionNumber);
