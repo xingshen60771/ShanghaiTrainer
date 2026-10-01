@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -20,6 +21,20 @@ namespace ShanghaiTrainer
             uint flNewProtect,
             out uint lpflOldProtect
         );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool VirtualProtectEx(
+            IntPtr hProcess,
+            IntPtr lpAddress,
+            UIntPtr dwSize,
+            uint flNewProtect,
+            out uint lpflOldProtect);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool FlushInstructionCache(
+            IntPtr hProcess,
+            IntPtr lpBaseAddress,
+            UIntPtr dwSize);
 
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -131,6 +146,45 @@ namespace ShanghaiTrainer
         }
 
         /// <summary>
+        /// 向目标进程代码区写入单字节补丁。
+        /// 写入前临时将目标页设为可读写执行，写入后恢复原保护并刷新指令缓存。
+        /// </summary>
+        public void WriteCodeByte(IntPtr address, byte value)
+        {
+            const uint PAGE_EXECUTE_READWRITE = 0x40;
+            UIntPtr size = new UIntPtr(1);
+            uint oldProtect;
+
+            if (!VirtualProtectEx(
+                _processHandle,
+                address,
+                size,
+                PAGE_EXECUTE_READWRITE,
+                out oldProtect))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error(), "VirtualProtectEx失败");
+            }
+
+            try
+            {
+                byte[] buffer = { value };
+                int written;
+
+                if (!WriteProcessMemory(_processHandle, address, buffer, 1, out written) || written != 1)
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), "WriteProcessMemory失败");
+                }
+
+                FlushInstructionCache(_processHandle, address, size);
+            }
+            finally
+            {
+                uint ignored;
+                VirtualProtectEx(_processHandle, address, size, oldProtect, out ignored);
+            }
+        }
+
+        /// <summary>
         /// &lt;内存指针&gt; 解析多级指针链获取最终内存地址
         /// <param name="baseAddress">(整数型 基地址, </param>
         /// <param name="offsets">整数型数组 偏移量数组)</param>
@@ -175,6 +229,78 @@ namespace ShanghaiTrainer
             }
         }
 
+        /// <summary>
+        /// 向目标进程代码区写入字节数组。
+        /// 写入前临时修改页面保护，完成后恢复并刷新指令缓存。
+        /// </summary>
+        public void WriteCodeBytes(IntPtr address, byte[] bytes)
+        {
+            const uint PAGE_EXECUTE_READWRITE = 0x40;
+
+            UIntPtr size = new UIntPtr((uint)bytes.Length);
+            uint oldProtect;
+
+            if (!VirtualProtectEx(
+                _processHandle,
+                address,
+                size,
+                PAGE_EXECUTE_READWRITE,
+                out oldProtect))
+            {
+                throw new Win32Exception(
+                    Marshal.GetLastWin32Error(),
+                    "VirtualProtectEx失败");
+            }
+
+            try
+            {
+                int written;
+
+                if (!WriteProcessMemory(
+                    _processHandle,
+                    address,
+                    bytes,
+                    bytes.Length,
+                    out written) ||
+                    written != bytes.Length)
+                {
+                    throw new Win32Exception(
+                        Marshal.GetLastWin32Error(),
+                        "WriteProcessMemory失败");
+                }
+
+                FlushInstructionCache(
+                    _processHandle,
+                    address,
+                    size);
+            }
+            finally
+            {
+                uint ignored;
+
+                VirtualProtectEx(
+                    _processHandle,
+                    address,
+                    size,
+                    oldProtect,
+                    out ignored);
+            }
+        }
+
+        /// <summary>
+        /// 向指定地址写入单精度浮点数
+        /// </summary>
+        public void WriteFloat(IntPtr address, float value)
+        {
+            byte[] buffer = BitConverter.GetBytes(value);
+
+            WriteProcessMemory(
+                _processHandle,
+                address,
+                buffer,
+                buffer.Length,
+                out _);
+        }
 
         /// <summary>
         /// 断开当前附加的进程并释放资源
