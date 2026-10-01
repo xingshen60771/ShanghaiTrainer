@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 /*
 
-血战上海滩九项属性修改器源代码
+血战上海滩八项属性修改器源代码
 
 52pojie@烟99
 
@@ -27,18 +27,6 @@ using System.Windows.Forms;
 写、窗体控件控制、包文件结构分析等知识点，既可以作为修改器
 使用，也可以作为源代码，适合C#初学者学习！
 
-【更新日志】
---------------------------------------------
-2026.10.01 -- v1.0.1
---------------------------------------------
-1、优化<永远不用换弹夹>修改项的实现方式。
-2、新增<突破连发射击限制>修改项，它能让手枪、步枪和巴祖卡这样的单发武器像冲锋枪一样能够连发（手榴弹暂不支持）。推荐搭配<永远不用换弹夹>修改项使用，可以做到终极必杀。
-
---------------------------------------------
-2025.04.15 -- v1.0.0
---------------------------------------------
-1、修改器正式发布。
-
 【郑重声明】
 本源码（含成品）仅供技术学习与交流讨论使用！严禁任何非法用途！
 */
@@ -54,6 +42,7 @@ namespace ShanghaiTrainer
         // 初始化内存管理器和计时器
         private readonly MemoryManager _memMgr = new MemoryManager();
         private Timer _processCheckTimer;       //进程检测计时器
+        private Timer _ammoLockTimer;           //弹药锁定计时器
 
         // 初始化ToolTip用于气泡框信息提示
         private ToolTip toolTip;
@@ -100,6 +89,7 @@ namespace ShanghaiTrainer
                     Label_GamePath_Click(this, EventArgs.Empty);
                 }
             }
+
         }
 
         /// <summary>
@@ -178,10 +168,14 @@ namespace ShanghaiTrainer
             _gameMonitorTimer = new Timer { Interval = 1000 };
             _gameMonitorTimer.Tick += GameMonitorTick;           // 添加时钟周期事件
 
+            // 弹药锁定计时器（检测间隔500毫秒）
+            _ammoLockTimer = new Timer { Interval = 500 };
+            _ammoLockTimer.Tick += AmmoLockTick;                // 添加时钟周期事件
+
             // 以下是与计时器状态有关的控件状态控制操作
 
             // 在标签控件中显示激活状态
-            label_ProcessCheck.Text = "● 游戏未启动！";
+            label_ProcessCheck.Text = "游戏未启动！";
             label_ProcessCheck.ForeColor = Color.Red;
             label_ProcessCheck.Font = new Font(label_ProcessCheck.Font, FontStyle.Bold);
 
@@ -189,7 +183,6 @@ namespace ShanghaiTrainer
             checkBox_Allweapon.Enabled = false;
             checkBox_HaveMaxim.Enabled = false;
             checkBox_AmmoLock.Enabled = false;
-            checkBox_BreakSingleFireLimit.Enabled = false;
             btn_Life.Enabled = false;
             btn_Score.Enabled = false;
             btn_Kills.Enabled = false;
@@ -201,7 +194,6 @@ namespace ShanghaiTrainer
             label_Key5.Enabled = false;
             label_Key6.Enabled = false;
             label_Key7.Enabled = false;
-            label_Key8.Enabled = false;
         }
 
         /// <summary>
@@ -247,24 +239,20 @@ namespace ShanghaiTrainer
                     case 3:
                         checkBox_AmmoLock.Checked = !checkBox_AmmoLock.Checked;
                         break;
-                    // 突破单发射击限制
-                    case 4:
-                        checkBox_BreakSingleFireLimit.Checked =!checkBox_BreakSingleFireLimit.Checked;
-                        break;
                     // 追加复活次数
-                    case 5:
+                    case 4:
                         AddPlayerLife();
                         break;
                     // 追加杀敌积分
-                    case 6:
+                    case 5:
                         AddKillScore();
                         break;
                     //追加杀敌数
-                    case 7:
+                    case 6:
                         AddKillCount();
                         break;
                     // 误伤平民数清空
-                    case 8:
+                    case 7:
                         CivilianDeathClear();
                         break;
                 }
@@ -298,12 +286,11 @@ namespace ShanghaiTrainer
                     _gameMonitorTimer.Start();
 
                     // 更新控件状态
-                    label_ProcessCheck.Text = "● 游戏已启动，修改器激活成功！";
+                    label_ProcessCheck.Text = "游戏已启动，修改器激活成功！";
                     label_ProcessCheck.ForeColor = Color.FromArgb(76, 175, 80);
                     checkBox_Allweapon.Enabled = true;
                     checkBox_HaveMaxim.Enabled = true;
                     checkBox_AmmoLock.Enabled = true;
-                    checkBox_BreakSingleFireLimit.Enabled = true;
                     btn_Life.Enabled = true;
                     btn_Score.Enabled = true;
                     btn_Kills.Enabled = true;
@@ -315,7 +302,6 @@ namespace ShanghaiTrainer
                     label_Key5.Enabled = true;
                     label_Key6.Enabled = true;
                     label_Key7.Enabled = true;
-                    label_Key8.Enabled = true;
                     SoundPlay.PlaySound(1);     //播放提示音
                     return;
                 }
@@ -350,19 +336,17 @@ namespace ShanghaiTrainer
                 _processCheckTimer.Start();
 
                 // 更新控件状态
-                label_ProcessCheck.Text = "● 游戏未启动！";
+                label_ProcessCheck.Text = "游戏未启动！";
                 label_ProcessCheck.ForeColor = Color.Red;
                 checkBox_Allweapon.Enabled = false;
                 checkBox_HaveMaxim.Enabled = false;
                 checkBox_AmmoLock.Enabled = false;
-                checkBox_BreakSingleFireLimit.Enabled = false;
                 btn_Life.Enabled = false;
                 btn_Score.Enabled = false;
                 btn_Kills.Enabled = false;
                 btn_CivilianClear.Enabled = false;
                 checkBox_Allweapon.Checked = false;
                 checkBox_HaveMaxim.Checked = false;
-                checkBox_AmmoLock.Checked = false;
                 checkBox_AmmoLock.Checked = false;
                 label_Key1.Enabled = false;
                 label_Key2.Enabled = false;
@@ -371,8 +355,8 @@ namespace ShanghaiTrainer
                 label_Key5.Enabled = false;
                 label_Key6.Enabled = false;
                 label_Key7.Enabled = false;
-                label_Key8.Enabled = false;
                 AllWeapon(false);
+                AmmoLock(false);
                 SoundPlay.PlaySound(3);
             }
         }
@@ -413,30 +397,37 @@ namespace ShanghaiTrainer
                 GloConst.Trainer.WeaponActiveState.offsetWeapon06,  // 轻机枪
             };
 
-            // 遍历武器偏移，统一写入激活状态
+            // 遍历武器偏移，并将相应的地址填入0x01
             foreach (int offset in weaponOffsets)
             {
+                // 通过指针取动态地址
                 IntPtr addr = _memMgr.ResolvePointerChain(
                     GloConst.Trainer.baseAddress,
                     new[] { offset });
 
-                _memMgr.WriteByte(addr, enable ? (byte)0x01 : (byte)0x00);
-            }
+                if (enable)
+                {
+                    // 写入0x01
+                    _memMgr.WriteByte(addr, 0x01);
 
-            if (enable)
-            {
-                // 新解锁的武器初始没有弹药，只需在解锁时填充一次
-                FillAllAmmo();
-            }
+                    // 武器解锁后是没有弹药的，还要填满弹药
+                    AmmoFull();
+                    SoundPlay.PlaySound(1);     //播放提示音
+                }
+                else
+                {
+                    // 取消解锁武器
+                    _memMgr.WriteByte(addr, 0x00);
+                    SoundPlay.PlaySound(2);     //播放提示音
+                }
 
-            SoundPlay.PlaySound(enable ? 1 : 2);
+            }
         }
 
         /// <summary>
-        /// 为所有武器填充一次弹药。
-        /// 仅供“解锁所有武器”使用，不再用于弹药锁定。
+        /// 所有弹药填满
         /// </summary>
-        private void FillAllAmmo()
+        private void AmmoFull()
         {
             var capacity = new GloVar.Trainer.ammoCount();
 
@@ -450,12 +441,14 @@ namespace ShanghaiTrainer
             IntPtr addrAmmo1 = _memMgr.ResolvePointerChain(
                 GloConst.Trainer.baseAddress,
                 new[] { GloConst.Trainer.AmmoAddress.offsetWeapon01 }) + GloConst.Trainer.AmmoAddress.offsetWeapon00;
+
             _memMgr.WriteInt(addrAmmo1, capacity.weapon01);
 
             // 手榴弹弹药
             IntPtr addrAmmo2 = _memMgr.ResolvePointerChain(
                 GloConst.Trainer.baseAddress,
                 new[] { GloConst.Trainer.AmmoAddress.offsetWeapon02 }) + GloConst.Trainer.AmmoAddress.offsetWeapon00;
+
             _memMgr.WriteInt(addrAmmo2, capacity.weapon02);
 
             // 冲锋枪弹药
@@ -468,32 +461,22 @@ namespace ShanghaiTrainer
             IntPtr addrAmmo4 = _memMgr.ResolvePointerChain(
                 GloConst.Trainer.baseAddress,
                 new[] { GloConst.Trainer.AmmoAddress.offsetWeapon04 }) + GloConst.Trainer.AmmoAddress.offsetWeapon00;
+
             _memMgr.WriteInt(addrAmmo4, capacity.weapon04);
 
             // 巴祖卡弹药
             IntPtr addrAmmo5 = _memMgr.ResolvePointerChain(
                 GloConst.Trainer.baseAddress,
                 new[] { GloConst.Trainer.AmmoAddress.offsetWeapon05 }) + GloConst.Trainer.AmmoAddress.offsetWeapon00;
+
             _memMgr.WriteInt(addrAmmo5, capacity.weapon05);
 
             // 轻机枪弹药
             IntPtr addrAmmo6 = _memMgr.ResolvePointerChain(
                 GloConst.Trainer.baseAddress,
                 new[] { GloConst.Trainer.AmmoAddress.offsetWeapon06 }) + GloConst.Trainer.AmmoAddress.offsetWeapon00;
-            _memMgr.WriteInt(addrAmmo6, capacity.weapon06);
-        }
 
-        /// <summary>
-        /// 永不换弹夹代码补丁。
-        /// </summary>
-        private void AmmoFull(bool enable)
-        {
-            // true：将 shanghai.exe+2F377 的 dec ecx (49) 改为 nop (90)。
-            // false：恢复原版 dec ecx (49)。
-            IntPtr patchAddress = (IntPtr)GloConst.Trainer.addressAmmoDecrease;
-            _memMgr.WriteCodeByte(
-                patchAddress,
-                enable ? (byte)0x90 : (byte)0x49);  // nop / dec ecx
+            _memMgr.WriteInt(addrAmmo6, capacity.weapon06);
         }
 
         /// <summary>
@@ -534,180 +517,36 @@ namespace ShanghaiTrainer
         }
 
         /// <summary>
-        /// 作弊功能3：弹药锁定
+        /// 弹药锁定计时器时钟周期
         /// </summary>
-        /// <param name="enable">true 开启永不换弹夹；false 恢复游戏原版逻辑</param>
-        private void AmmoLock(bool enable)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AmmoLockTick(object sender, EventArgs e)
         {
-            // 游戏进程已退出/尚未附加时，不再尝试写代码区。
-            if (_attachedProcessId < 0)
-            {
-                return;
-            }
-
-            AmmoFull(enable);
-            SoundPlay.PlaySound(enable ? 1 : 2);
+            // 直接调用所有弹药填满方法
+            AmmoFull();
         }
 
         /// <summary>
-        /// 作弊功能4：突破单发限制。
+        /// 作弊功能3：弹药锁定
         /// </summary>
-        /// <param name="enable">是否突破单发限制</param>
-        private void BreakSingleFireLimit(bool enable)
+        /// <param name="enable"></param>
+        private void AmmoLock(bool enable)
         {
-            if (_attachedProcessId < 0)
-            {
-                return;
-            }
-
-            /*
-             * 第一层单发限制：
-             *
-             * shanghai.exe+97C10
-             *
-             * 原版：
-             * 55 8B EC ...
-             *
-             * 开启：
-             * B0 01       mov al,1
-             * C3          ret
-             *
-             * 即强制 CanContinueFire() 返回 true。
-             */
-            IntPtr canContinueFireAddress =
-                (IntPtr)0x00497C10;
-
-            /*
-             * 第二层单发限制：
-             *
-             * shanghai.exe+97C90
-             *
-             * 原版：
-             * 55 8B EC 6A FF
-             *
-             * 开启：
-             * E9 BB A5 FC FF
-             *
-             * 即：
-             * jmp shanghai.exe+62250
-             *
-             * 改用自动武器的持续射击状态处理。
-             */
-            IntPtr fireStateAddress =
-                (IntPtr)0x00497C90;
-
             if (enable)
             {
-                // 第一层：CanContinueFire() 永远返回 true
-                _memMgr.WriteCodeBytes(
-                    canContinueFireAddress,
-                    new byte[]
-                    {
-                0xB0, 0x01, 0xC3
-                    });
-
-                // 第二层：跳转到自动武器的射击状态处理函数
-                _memMgr.WriteCodeBytes(
-                    fireStateAddress,
-                    new byte[]
-                    {
-                0xE9, 0xBB, 0xA5, 0xFC, 0xFF
-                    });
+                _ammoLockTimer.Start();
+                SoundPlay.PlaySound(1);
             }
             else
             {
-                // 恢复 shanghai.exe+97C10 原始函数开头
-                _memMgr.WriteCodeBytes(
-                    canContinueFireAddress,
-                    new byte[]
-                    {
-                0x55, 0x8B, 0xEC
-                    });
-
-                // 恢复 shanghai.exe+97C90 原始函数开头
-                _memMgr.WriteCodeBytes(
-                    fireStateAddress,
-                    new byte[]
-                    {
-                0x55, 0x8B, 0xEC, 0x6A, 0xFF
-                    });
+                _ammoLockTimer.Stop();
+                SoundPlay.PlaySound(2);
             }
-
-            /*
-             * 以下修改各武器对象中的实时冷却时间：
-             *
-             * [shanghai.exe+1DCFE4]
-             *          ↓
-             * player
-             *          ↓ +5C
-             * weaponManager
-             *          ↓ +10
-             * weaponList
-             *          ↓ +100 ~ +118
-             * weaponObject
-             *          ↓ +04
-             * 实时射击冷却时间 Float
-             *
-             * 手榴弹 weapon02 暂时跳过。
-             */
-
-            int[] weaponOffsets =
-            {
-        GloConst.Trainer.WeaponFireCooldownOffset.offsetWeapon00, // 手枪
-        GloConst.Trainer.WeaponFireCooldownOffset.offsetWeapon01, // 步枪
-
-        // weapon02 手榴弹暂不处理
-
-        GloConst.Trainer.WeaponFireCooldownOffset.offsetWeapon03, // 冲锋枪
-        GloConst.Trainer.WeaponFireCooldownOffset.offsetWeapon04, // 马克沁
-        GloConst.Trainer.WeaponFireCooldownOffset.offsetWeapon05, // 巴祖卡
-        GloConst.Trainer.WeaponFireCooldownOffset.offsetWeapon06  // 轻机枪
-    };
-
-            float[] originalCooldowns =
-            {
-        GloConst.Trainer.WeaponFireCooldown.weapon00,
-        GloConst.Trainer.WeaponFireCooldown.weapon01,
-
-        // weapon02 手榴弹暂不处理
-
-        GloConst.Trainer.WeaponFireCooldown.weapon03,
-        GloConst.Trainer.WeaponFireCooldown.weapon04,
-        GloConst.Trainer.WeaponFireCooldown.weapon05,
-        GloConst.Trainer.WeaponFireCooldown.weapon06
-    };
-
-            // 开启时所有武器统一使用轻机枪冷却时间
-            float lightMachineGunCooldown =
-                GloConst.Trainer.WeaponFireCooldown.weapon06;
-
-            for (int i = 0; i < weaponOffsets.Length; i++)
-            {
-                IntPtr cooldownAddress =
-                    _memMgr.ResolvePointerChain(
-                        GloConst.Trainer.baseAddress,
-                        new[]
-                        {
-                    GloConst.Trainer.WeaponFireCooldownOffset.offsetWeaponManager,
-                    GloConst.Trainer.WeaponFireCooldownOffset.offsetWeaponList,
-                    weaponOffsets[i],
-                    GloConst.Trainer.WeaponFireCooldownOffset.offsetCooldown
-                        });
-
-                float cooldown = enable
-                    ? lightMachineGunCooldown
-                    : originalCooldowns[i];
-
-                _memMgr.WriteFloat(
-                    cooldownAddress,
-                    cooldown);
-            }
-
-            SoundPlay.PlaySound(enable ? 1 : 2);
         }
 
         /// <summary>
-        /// 作弊功能:5：追加九条命
+        /// 作弊功能4：追加九条命
         /// </summary>
         private void AddPlayerLife()
         {
@@ -725,7 +564,7 @@ namespace ShanghaiTrainer
         }
 
         /// <summary>
-        /// 作弊功能6：追加1000杀敌得分
+        /// 作弊功能5：追加1000杀敌得分
         /// </summary>
         private void AddKillScore()
         {
@@ -743,7 +582,7 @@ namespace ShanghaiTrainer
         }
 
         /// <summary>
-        //// 作弊功能7：追加100杀敌数
+        //// 作弊功能6：追加100杀敌数
         /// </summary>
         private void AddKillCount()
         {
@@ -759,7 +598,7 @@ namespace ShanghaiTrainer
         }
 
         /// <summary>
-        /// 作弊功能8：清空误伤平民
+        /// 作弊功能7：清空误伤平民
         /// </summary>
         private void CivilianDeathClear()
         {
@@ -775,7 +614,7 @@ namespace ShanghaiTrainer
 
 
         /// <summary>
-        /// 作弊功能9：解锁所有关卡
+        /// 作弊功能8：解锁所有关卡
         /// </summary>
         private void UnlockLevel()
         {
@@ -1436,16 +1275,6 @@ namespace ShanghaiTrainer
         }
 
         /// <summary>
-        /// 突破单发射击限制
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CheckBox_BreakSingleFireLimit_CheckedChanged(object sender, EventArgs e)
-        {
-            BreakSingleFireLimit(checkBox_BreakSingleFireLimit.Checked);
-        }
-
-        /// <summary>
         /// 追加九条命按钮
         /// </summary>
         /// <param name="sender"></param>
@@ -1706,7 +1535,6 @@ namespace ShanghaiTrainer
         {
             label_Website_Click(this, EventArgs.Empty);
         }
-
         #endregion
 
 
