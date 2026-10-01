@@ -31,20 +31,22 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl_Main = new System.Windows.Forms.TabControl();
             this.tabPage_Trainer = new System.Windows.Forms.TabPage();
+            this.label_Key4 = new System.Windows.Forms.Label();
+            this.checkBox_BreakSingleFireLimit = new System.Windows.Forms.CheckBox();
             this.checkBox_WindowMode = new System.Windows.Forms.CheckBox();
             this.label_Key2 = new System.Windows.Forms.Label();
             this.checkBox_HaveMaxim = new System.Windows.Forms.CheckBox();
-            this.label_Tips = new System.Windows.Forms.Label();
+            this.label_Tips02 = new System.Windows.Forms.Label();
             this.label_UnlockLevelOK = new System.Windows.Forms.Label();
             this.checkBox_NoPCK = new System.Windows.Forms.CheckBox();
             this.label_RunGame = new System.Windows.Forms.Label();
             this.label_GamePath = new System.Windows.Forms.Label();
             this.label_Item = new System.Windows.Forms.Label();
             this.label_Key0 = new System.Windows.Forms.Label();
+            this.label_Key8 = new System.Windows.Forms.Label();
             this.label_Key7 = new System.Windows.Forms.Label();
             this.label_Key6 = new System.Windows.Forms.Label();
             this.label_Key5 = new System.Windows.Forms.Label();
-            this.label_Key4 = new System.Windows.Forms.Label();
             this.label_Key3 = new System.Windows.Forms.Label();
             this.label_Key1 = new System.Windows.Forms.Label();
             this.checkBox_Allweapon = new System.Windows.Forms.CheckBox();
@@ -86,10 +88,10 @@
             this.tabPage_Description = new System.Windows.Forms.TabPage();
             this.textBox_Description = new System.Windows.Forms.TextBox();
             this.tabPage_About = new System.Windows.Forms.TabPage();
-            this.pictureBox_52pojieLogo = new System.Windows.Forms.PictureBox();
-            this.label_About_Title = new System.Windows.Forms.Label();
-            this.label_WelcomeTo52pojie = new System.Windows.Forms.Label();
             this.label_Website = new System.Windows.Forms.Label();
+            this.label_WelcomeTo52pojie = new System.Windows.Forms.Label();
+            this.label_About_Title = new System.Windows.Forms.Label();
+            this.pictureBox_52pojieLogo = new System.Windows.Forms.PictureBox();
             this.tabControl_Main.SuspendLayout();
             this.tabPage_Trainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Cover)).BeginInit();
@@ -121,20 +123,22 @@
             // tabPage_Trainer
             // 
             this.tabPage_Trainer.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_Trainer.Controls.Add(this.label_Key4);
+            this.tabPage_Trainer.Controls.Add(this.checkBox_BreakSingleFireLimit);
             this.tabPage_Trainer.Controls.Add(this.checkBox_WindowMode);
             this.tabPage_Trainer.Controls.Add(this.label_Key2);
             this.tabPage_Trainer.Controls.Add(this.checkBox_HaveMaxim);
-            this.tabPage_Trainer.Controls.Add(this.label_Tips);
+            this.tabPage_Trainer.Controls.Add(this.label_Tips02);
             this.tabPage_Trainer.Controls.Add(this.label_UnlockLevelOK);
             this.tabPage_Trainer.Controls.Add(this.checkBox_NoPCK);
             this.tabPage_Trainer.Controls.Add(this.label_RunGame);
             this.tabPage_Trainer.Controls.Add(this.label_GamePath);
             this.tabPage_Trainer.Controls.Add(this.label_Item);
             this.tabPage_Trainer.Controls.Add(this.label_Key0);
+            this.tabPage_Trainer.Controls.Add(this.label_Key8);
             this.tabPage_Trainer.Controls.Add(this.label_Key7);
             this.tabPage_Trainer.Controls.Add(this.label_Key6);
             this.tabPage_Trainer.Controls.Add(this.label_Key5);
-            this.tabPage_Trainer.Controls.Add(this.label_Key4);
             this.tabPage_Trainer.Controls.Add(this.label_Key3);
             this.tabPage_Trainer.Controls.Add(this.label_Key1);
             this.tabPage_Trainer.Controls.Add(this.checkBox_Allweapon);
@@ -153,6 +157,29 @@
             this.tabPage_Trainer.TabIndex = 0;
             this.tabPage_Trainer.Text = "游戏修改";
             // 
+            // label_Key4
+            // 
+            this.label_Key4.AutoSize = true;
+            this.label_Key4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Key4.ForeColor = System.Drawing.Color.Fuchsia;
+            this.label_Key4.Location = new System.Drawing.Point(541, 146);
+            this.label_Key4.Name = "label_Key4";
+            this.label_Key4.Size = new System.Drawing.Size(245, 15);
+            this.label_Key4.TabIndex = 30;
+            this.label_Key4.Text = "Shift + F4  (手榴弹暂不支持)";
+            this.label_Key4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBox_BreakSingleFireLimit
+            // 
+            this.checkBox_BreakSingleFireLimit.AutoSize = true;
+            this.checkBox_BreakSingleFireLimit.Location = new System.Drawing.Point(380, 144);
+            this.checkBox_BreakSingleFireLimit.Name = "checkBox_BreakSingleFireLimit";
+            this.checkBox_BreakSingleFireLimit.Size = new System.Drawing.Size(149, 19);
+            this.checkBox_BreakSingleFireLimit.TabIndex = 29;
+            this.checkBox_BreakSingleFireLimit.Text = "突破单发射击限制";
+            this.checkBox_BreakSingleFireLimit.UseVisualStyleBackColor = true;
+            this.checkBox_BreakSingleFireLimit.CheckedChanged += new System.EventHandler(this.CheckBox_BreakSingleFireLimit_CheckedChanged);
+            // 
             // checkBox_WindowMode
             // 
             this.checkBox_WindowMode.AutoSize = true;
@@ -168,7 +195,7 @@
             this.label_Key2.AutoSize = true;
             this.label_Key2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Key2.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label_Key2.Location = new System.Drawing.Point(541, 83);
+            this.label_Key2.Location = new System.Drawing.Point(541, 80);
             this.label_Key2.Name = "label_Key2";
             this.label_Key2.Size = new System.Drawing.Size(97, 15);
             this.label_Key2.TabIndex = 27;
@@ -178,7 +205,7 @@
             // checkBox_HaveMaxim
             // 
             this.checkBox_HaveMaxim.AutoSize = true;
-            this.checkBox_HaveMaxim.Location = new System.Drawing.Point(380, 81);
+            this.checkBox_HaveMaxim.Location = new System.Drawing.Point(380, 78);
             this.checkBox_HaveMaxim.Name = "checkBox_HaveMaxim";
             this.checkBox_HaveMaxim.Size = new System.Drawing.Size(149, 19);
             this.checkBox_HaveMaxim.TabIndex = 26;
@@ -186,21 +213,21 @@
             this.checkBox_HaveMaxim.UseVisualStyleBackColor = true;
             this.checkBox_HaveMaxim.CheckedChanged += new System.EventHandler(this.checkBox_HaveMaxim_CheckedChanged);
             // 
-            // label_Tips
+            // label_Tips02
             // 
-            this.label_Tips.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Tips.ForeColor = System.Drawing.Color.Red;
-            this.label_Tips.Location = new System.Drawing.Point(541, 378);
-            this.label_Tips.Name = "label_Tips";
-            this.label_Tips.Size = new System.Drawing.Size(323, 41);
-            this.label_Tips.TabIndex = 25;
-            this.label_Tips.Text = "请注意，弹夹和马克沁锁定后，若重开新局则须先解锁再锁定才能生效！";
-            this.label_Tips.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label_Tips02.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Tips02.ForeColor = System.Drawing.Color.Red;
+            this.label_Tips02.Location = new System.Drawing.Point(669, 287);
+            this.label_Tips02.Name = "label_Tips02";
+            this.label_Tips02.Size = new System.Drawing.Size(323, 147);
+            this.label_Tips02.TabIndex = 25;
+            this.label_Tips02.Text = "Tips:\r\n1、弹夹和马克沁锁定后，若重开新局则须先解锁再锁定才能生效！\r\n2、勾选<突破连发射击限制>后，手枪、步枪和巴祖卡就像冲锋枪一样能够连发，建议搭配<" +
+    "永远不用换弹夹>修改项使用，可以做到终极必杀。";
             // 
             // label_UnlockLevelOK
             // 
             this.label_UnlockLevelOK.AutoSize = true;
-            this.label_UnlockLevelOK.Location = new System.Drawing.Point(541, 349);
+            this.label_UnlockLevelOK.Location = new System.Drawing.Point(541, 369);
             this.label_UnlockLevelOK.Name = "label_UnlockLevelOK";
             this.label_UnlockLevelOK.Size = new System.Drawing.Size(55, 15);
             this.label_UnlockLevelOK.TabIndex = 24;
@@ -236,7 +263,7 @@
             this.label_GamePath.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label_GamePath.Font = new System.Drawing.Font("宋体", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_GamePath.ForeColor = System.Drawing.Color.Blue;
-            this.label_GamePath.Location = new System.Drawing.Point(377, 399);
+            this.label_GamePath.Location = new System.Drawing.Point(377, 419);
             this.label_GamePath.Name = "label_GamePath";
             this.label_GamePath.Size = new System.Drawing.Size(103, 15);
             this.label_GamePath.TabIndex = 21;
@@ -268,15 +295,27 @@
             this.label_Key0.Text = "对应快捷键";
             this.label_Key0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // label_Key8
+            // 
+            this.label_Key8.AutoSize = true;
+            this.label_Key8.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_Key8.ForeColor = System.Drawing.Color.Fuchsia;
+            this.label_Key8.Location = new System.Drawing.Point(541, 322);
+            this.label_Key8.Name = "label_Key8";
+            this.label_Key8.Size = new System.Drawing.Size(97, 15);
+            this.label_Key8.TabIndex = 18;
+            this.label_Key8.Text = "Shift + F8";
+            this.label_Key8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // label_Key7
             // 
             this.label_Key7.AutoSize = true;
             this.label_Key7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Key7.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label_Key7.Location = new System.Drawing.Point(541, 302);
+            this.label_Key7.Location = new System.Drawing.Point(541, 275);
             this.label_Key7.Name = "label_Key7";
             this.label_Key7.Size = new System.Drawing.Size(97, 15);
-            this.label_Key7.TabIndex = 18;
+            this.label_Key7.TabIndex = 16;
             this.label_Key7.Text = "Shift + F7";
             this.label_Key7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -285,10 +324,10 @@
             this.label_Key6.AutoSize = true;
             this.label_Key6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Key6.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label_Key6.Location = new System.Drawing.Point(541, 255);
+            this.label_Key6.Location = new System.Drawing.Point(541, 228);
             this.label_Key6.Name = "label_Key6";
             this.label_Key6.Size = new System.Drawing.Size(97, 15);
-            this.label_Key6.TabIndex = 16;
+            this.label_Key6.TabIndex = 15;
             this.label_Key6.Text = "Shift + F6";
             this.label_Key6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -297,31 +336,19 @@
             this.label_Key5.AutoSize = true;
             this.label_Key5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Key5.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label_Key5.Location = new System.Drawing.Point(541, 208);
+            this.label_Key5.Location = new System.Drawing.Point(541, 181);
             this.label_Key5.Name = "label_Key5";
             this.label_Key5.Size = new System.Drawing.Size(97, 15);
-            this.label_Key5.TabIndex = 15;
+            this.label_Key5.TabIndex = 14;
             this.label_Key5.Text = "Shift + F5";
             this.label_Key5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label_Key4
-            // 
-            this.label_Key4.AutoSize = true;
-            this.label_Key4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_Key4.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label_Key4.Location = new System.Drawing.Point(541, 161);
-            this.label_Key4.Name = "label_Key4";
-            this.label_Key4.Size = new System.Drawing.Size(97, 15);
-            this.label_Key4.TabIndex = 14;
-            this.label_Key4.Text = "Shift + F4";
-            this.label_Key4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label_Key3
             // 
             this.label_Key3.AutoSize = true;
             this.label_Key3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_Key3.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label_Key3.Location = new System.Drawing.Point(541, 119);
+            this.label_Key3.Location = new System.Drawing.Point(541, 113);
             this.label_Key3.Name = "label_Key3";
             this.label_Key3.Size = new System.Drawing.Size(97, 15);
             this.label_Key3.TabIndex = 13;
@@ -364,7 +391,7 @@
             // checkBox_AmmoLock
             // 
             this.checkBox_AmmoLock.AutoSize = true;
-            this.checkBox_AmmoLock.Location = new System.Drawing.Point(380, 117);
+            this.checkBox_AmmoLock.Location = new System.Drawing.Point(380, 111);
             this.checkBox_AmmoLock.Name = "checkBox_AmmoLock";
             this.checkBox_AmmoLock.Size = new System.Drawing.Size(134, 19);
             this.checkBox_AmmoLock.TabIndex = 7;
@@ -374,7 +401,7 @@
             // 
             // btn_CivilianClear
             // 
-            this.btn_CivilianClear.Location = new System.Drawing.Point(380, 294);
+            this.btn_CivilianClear.Location = new System.Drawing.Point(380, 314);
             this.btn_CivilianClear.Name = "btn_CivilianClear";
             this.btn_CivilianClear.Size = new System.Drawing.Size(150, 30);
             this.btn_CivilianClear.TabIndex = 5;
@@ -384,7 +411,7 @@
             // 
             // btn_UnlockLevel
             // 
-            this.btn_UnlockLevel.Location = new System.Drawing.Point(380, 341);
+            this.btn_UnlockLevel.Location = new System.Drawing.Point(380, 361);
             this.btn_UnlockLevel.Name = "btn_UnlockLevel";
             this.btn_UnlockLevel.Size = new System.Drawing.Size(150, 30);
             this.btn_UnlockLevel.TabIndex = 4;
@@ -394,7 +421,7 @@
             // 
             // btn_Kills
             // 
-            this.btn_Kills.Location = new System.Drawing.Point(380, 247);
+            this.btn_Kills.Location = new System.Drawing.Point(380, 267);
             this.btn_Kills.Name = "btn_Kills";
             this.btn_Kills.Size = new System.Drawing.Size(150, 30);
             this.btn_Kills.TabIndex = 3;
@@ -404,7 +431,7 @@
             // 
             // btn_Score
             // 
-            this.btn_Score.Location = new System.Drawing.Point(380, 200);
+            this.btn_Score.Location = new System.Drawing.Point(380, 220);
             this.btn_Score.Name = "btn_Score";
             this.btn_Score.Size = new System.Drawing.Size(150, 30);
             this.btn_Score.TabIndex = 2;
@@ -414,7 +441,7 @@
             // 
             // btn_Life
             // 
-            this.btn_Life.Location = new System.Drawing.Point(380, 153);
+            this.btn_Life.Location = new System.Drawing.Point(380, 173);
             this.btn_Life.Name = "btn_Life";
             this.btn_Life.Size = new System.Drawing.Size(150, 30);
             this.btn_Life.TabIndex = 1;
@@ -762,38 +789,6 @@
             this.tabPage_About.TabIndex = 4;
             this.tabPage_About.Text = "关于修改器";
             // 
-            // pictureBox_52pojieLogo
-            // 
-            this.pictureBox_52pojieLogo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox_52pojieLogo.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_52pojieLogo.Image")));
-            this.pictureBox_52pojieLogo.Location = new System.Drawing.Point(869, 388);
-            this.pictureBox_52pojieLogo.Name = "pictureBox_52pojieLogo";
-            this.pictureBox_52pojieLogo.Size = new System.Drawing.Size(121, 75);
-            this.pictureBox_52pojieLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_52pojieLogo.TabIndex = 0;
-            this.pictureBox_52pojieLogo.TabStop = false;
-            this.pictureBox_52pojieLogo.Click += new System.EventHandler(this.pictureBox_52pojieLogo_Click);
-            // 
-            // label_About_Title
-            // 
-            this.label_About_Title.AutoSize = true;
-            this.label_About_Title.Font = new System.Drawing.Font("宋体", 12F);
-            this.label_About_Title.Location = new System.Drawing.Point(74, 46);
-            this.label_About_Title.Name = "label_About_Title";
-            this.label_About_Title.Size = new System.Drawing.Size(69, 20);
-            this.label_About_Title.TabIndex = 1;
-            this.label_About_Title.Text = "label1";
-            // 
-            // label_WelcomeTo52pojie
-            // 
-            this.label_WelcomeTo52pojie.AutoSize = true;
-            this.label_WelcomeTo52pojie.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_WelcomeTo52pojie.Location = new System.Drawing.Point(385, 428);
-            this.label_WelcomeTo52pojie.Name = "label_WelcomeTo52pojie";
-            this.label_WelcomeTo52pojie.Size = new System.Drawing.Size(149, 20);
-            this.label_WelcomeTo52pojie.TabIndex = 2;
-            this.label_WelcomeTo52pojie.Text = "吾爱破解欢迎您";
-            // 
             // label_Website
             // 
             this.label_Website.AutoSize = true;
@@ -808,6 +803,38 @@
             this.label_Website.Text = "label2";
             this.label_Website.Click += new System.EventHandler(this.label_Website_Click);
             // 
+            // label_WelcomeTo52pojie
+            // 
+            this.label_WelcomeTo52pojie.AutoSize = true;
+            this.label_WelcomeTo52pojie.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_WelcomeTo52pojie.Location = new System.Drawing.Point(385, 428);
+            this.label_WelcomeTo52pojie.Name = "label_WelcomeTo52pojie";
+            this.label_WelcomeTo52pojie.Size = new System.Drawing.Size(149, 20);
+            this.label_WelcomeTo52pojie.TabIndex = 2;
+            this.label_WelcomeTo52pojie.Text = "吾爱破解欢迎您";
+            // 
+            // label_About_Title
+            // 
+            this.label_About_Title.AutoSize = true;
+            this.label_About_Title.Font = new System.Drawing.Font("宋体", 12F);
+            this.label_About_Title.Location = new System.Drawing.Point(74, 46);
+            this.label_About_Title.Name = "label_About_Title";
+            this.label_About_Title.Size = new System.Drawing.Size(69, 20);
+            this.label_About_Title.TabIndex = 1;
+            this.label_About_Title.Text = "label1";
+            // 
+            // pictureBox_52pojieLogo
+            // 
+            this.pictureBox_52pojieLogo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox_52pojieLogo.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_52pojieLogo.Image")));
+            this.pictureBox_52pojieLogo.Location = new System.Drawing.Point(869, 388);
+            this.pictureBox_52pojieLogo.Name = "pictureBox_52pojieLogo";
+            this.pictureBox_52pojieLogo.Size = new System.Drawing.Size(121, 75);
+            this.pictureBox_52pojieLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_52pojieLogo.TabIndex = 0;
+            this.pictureBox_52pojieLogo.TabStop = false;
+            this.pictureBox_52pojieLogo.Click += new System.EventHandler(this.pictureBox_52pojieLogo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -819,7 +846,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "《血战上海滩》八项属性修改器";
+            this.Text = "《血战上海滩》九项属性修改器";
             this.tabControl_Main.ResumeLayout(false);
             this.tabPage_Trainer.ResumeLayout(false);
             this.tabPage_Trainer.PerformLayout();
@@ -854,10 +881,10 @@
         private System.Windows.Forms.Label label_GamePath;
         private System.Windows.Forms.Label label_Item;
         private System.Windows.Forms.Label label_Key0;
+        private System.Windows.Forms.Label label_Key8;
         private System.Windows.Forms.Label label_Key7;
         private System.Windows.Forms.Label label_Key6;
         private System.Windows.Forms.Label label_Key5;
-        private System.Windows.Forms.Label label_Key4;
         private System.Windows.Forms.Label label_Key3;
         private System.Windows.Forms.Label label_Key1;
         private System.Windows.Forms.CheckBox checkBox_Allweapon;
@@ -892,7 +919,7 @@
         private System.Windows.Forms.RadioButton radio_AreCompress_No;
         private System.Windows.Forms.RadioButton radio_AreCompress_Yes;
         private System.Windows.Forms.NumericUpDown numericUpDown_compressLevel;
-        private System.Windows.Forms.Label label_Tips;
+        private System.Windows.Forms.Label label_Tips02;
         private System.Windows.Forms.Button btn_PCKPackTips;
         private System.Windows.Forms.Label label_AreZlib;
         private System.Windows.Forms.Label label_Key2;
@@ -903,6 +930,8 @@
         private System.Windows.Forms.Label label_About_Title;
         private System.Windows.Forms.Label label_Website;
         private System.Windows.Forms.Label label_WelcomeTo52pojie;
+        private System.Windows.Forms.Label label_Key4;
+        private System.Windows.Forms.CheckBox checkBox_BreakSingleFireLimit;
     }
 }
 
